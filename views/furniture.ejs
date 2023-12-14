@@ -1,0 +1,28 @@
+<%- include('partials/_header') -%>
+      <!-- furnitures section start -->
+      <div class="furnitures_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12">
+                  <h1 class="furnitures_taital">Our Furnitures Work</h1>
+                  <p class="furnitures_text">reader will be distracted by the readable content of a page when looking at its layout. </p>
+               </div>
+            </div>
+            <div class="row">
+                  <div class="col-12 p-5">
+                     <h1 style="color: white;"><%= furniture.name %></h1>
+                     <p style="color: white;"><%= furniture.category.name %></p>
+                     <img src="<%= furniture.image %>" alt="">
+                     <p style="color: white;"><%= furniture.description %></p>
+                     <form action="/users/addFurniture" method="POST">
+                        <input type="hidden" name="id" value="<%= furniture._id %>">
+                        <% if(user && !user.basket.includes(furniture._id)){ %>
+                           <button class="btn btn-lg btn-success">Add to Basket</button>
+                        <% } %>
+                     </form>
+                  </div>
+            </div>
+         </div>
+      </div>
+      <!-- furnitures section end -->
+      <%- include('partials/_footer') -%>

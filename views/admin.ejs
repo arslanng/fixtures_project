@@ -1,0 +1,299 @@
+<%- include('partials/_header') -%>
+      <!-- about section start -->
+      <div class="about_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <h1 class="about_taital">Admin: <%= user.name %></h1>
+               </div>
+            </div>
+            <h2>Orders</h2>
+            <div class="row">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>User Name</th>
+                        <th>Orders</th>
+                        <th>Send</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% for(i = 0; i< orders.length; i++){ %>
+                        <tr>
+                           <th>
+                              <%= orders[i]._id %>
+                           </th>
+                           <td>
+                              <%= orders[i].user.name %>
+                           </td>
+                           <td>
+                              <ul>
+
+                                 <% for(k = 0; k< orders[i].orders.length ; k++){ %>
+                                    <li><%= orders[i].orders[k].name %></li>
+                                    <% } %>
+                                 </ul>
+                        </td>
+                           <td><a href="/orders/<%= orders[i]._id %>" class="btn btn-sm btn-danger">Send</a></td>
+                        </tr>
+                     <% } %>
+                  </tbody>
+               </table>
+            </div>
+            <h2>Furnitures</h2>
+            <div class="row">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% for(i = 0; i< furnitures.length; i++){ %>
+                        <tr>
+                           <th>
+                              <%= furnitures[i]._id %>
+                           </th>
+                           <td><%= furnitures[i].name %></td>
+                           <td><%= furnitures[i].description %></td>
+                           <td><%= furnitures[i].price %></td>
+                           <td><%= furnitures[i].category.name %></td>
+                           <td><button data-toggle="modal" data-target="#editFurniture<%= furnitures[i]._id %>" class="btn btn-sm btn-warning">Edit</button></td>
+                           <td><a href="/furnitures/delete/<%= furnitures[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
+                        </tr>
+                     <% } %>
+                  </tbody>
+               </table>
+            </div>
+            <div class="row mb-5">
+               <button class="btn btn-lg btn-success rounded-0 text-white mr-5" data-toggle="modal" data-target="#addFurniture">Add Furniture</button>
+            </div>
+            <h2>Categories</h2>
+            <div class="row">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% for(i = 0; i< categories.length; i++){ %>
+                        <tr>
+                           <th>
+                              <%= categories[i]._id %>
+                           </th>
+                           <td><%= categories[i].name %></td>
+                           <td><button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editCategory<%= categories[i]._id %>">Edit</button></td>
+                           <td><a href="/categories/<%= categories[i]._id %>?_method=DELETE" class="btn btn-sm btn-danger">Delete</a></td>
+                        </tr>
+                     <% } %>
+                  </tbody>
+               </table>
+            </div>
+            <div class="row mb-5">
+               <button class="btn btn-lg btn-success rounded-0 text-white mr-5" data-toggle="modal" data-target="#addCategory">Add Category</button>
+            </div>
+            <h2>Users</h2>
+            <div class="row">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% for(i = 0; i< users.length; i++){ %>
+                        <tr>
+                           <th>
+                              <%= users[i]._id %>
+                           </th>
+                           <td><%= users[i].name %></td>
+                           <td><%= users[i].role %></td>
+                           <td><%= users[i].email %></td>
+                           <td><button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editUser<%= users[i]._id %>">Edit</button></td>
+                           <td><a href="/users/<%= users[i]._id %>?_method=DELETE" class="btn btn-sm btn-danger">Delete</a></td>
+                        </tr>
+                     <% } %>
+                  </tbody>
+               </table>
+            </div>
+            <div class="about_section_2 layout_padding">
+               
+            </div>
+         </div>
+      </div>
+      <!-- about section end -->
+
+      <!-- Add Furniture Modal Start -->
+      <div class="modal" tabindex="-1" role="dialog" id="addFurniture">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title">Add Furniture</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <form action="/furnitures" method="POST">
+                  <input type="text" class="mail_text" placeholder="Name" name="name">
+                  <input type="text" class="mail_text" placeholder="Description" name="description">
+                  <input type="number" class="mail_text" placeholder="Price" name="price">
+                  <input type="url" class="mail_text" placeholder="Image Url" name="image">
+                  <input type="hidden" name="user" value="<%= userIN %>">
+                  <select class="mail_text" name="category">
+                     <% for(i = 0; i< categories.length; i++){ %>
+                        <option class="mail_text" value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+                     <% } %>
+                  </select>
+                  <button type="submit" class="btn btn-primary mt-4 btn-lg">Add</button>
+               </form>
+             </div>
+             <div class="modal-footer">
+             </div>
+           </div>
+         </div>
+       </div>
+       <!-- Add Furniture Modal End -->
+      <!-- Edit Furniture Modal Start -->
+      <% for(let j = 0 ; j < furnitures.length ; j++){ %>
+         <div class="modal" tabindex="-1" role="dialog" id="editFurniture<%= furnitures[j]._id %>">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit <%= furnitures[j].name %></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="/furnitures/<%= furnitures[j].slug %>?_method=PUT" method="POST">
+                     <input type="text" class="mail_text" placeholder="Name" name="name" value="<%= furnitures[j].name %>">
+                     <input type="text" class="mail_text" placeholder="Description" name="description" value="<%= furnitures[j].description %>">
+                     <input type="number" class="mail_text" placeholder="Price" name="price" value="<%= furnitures[j].price %>">
+                     <input type="url" class="mail_text" placeholder="Image Url" name="image" value="<%= furnitures[j].image %>">
+                     <input type="hidden" name="user" value="<%= userIN %>">
+                     <select class="mail_text" name="category" value="<%= furnitures[j].category %>">
+                        <% for(i = 0; i< categories.length; i++){ %>
+                           <option class="mail_text" value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+                        <% } %>
+                     </select>
+                     <button type="submit" class="btn btn-primary mt-4 btn-lg">Edit</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+      <% } %>
+       <!-- Edit Furniture Modal End -->
+       <!-- Add Category Modal Start -->
+      <div class="modal" tabindex="-1" role="dialog" id="addCategory">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title">Add Category</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <form action="/categories" method="POST">
+                  <input type="text" class="mail_text" placeholder="Name" name="name">
+                  <button type="submit" class="btn btn-primary mt-4 btn-lg">Add</button>
+               </form>
+             </div>
+             <div class="modal-footer">
+             </div>
+           </div>
+         </div>
+       </div>
+       <!-- Add Category Modal End -->
+       <!-- Edit Category Modal Start -->
+       <% for(i=0 ; i < categories.length; i++){ %>
+         <div class="modal" tabindex="-1" role="dialog" id="editCategory<%= categories[i]._id %>">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit <%= categories[i].name %></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="/categories/<%= categories[i]._id %>?_method=PUT" method="POST">
+                     <input type="text" class="mail_text" placeholder="Name" name="name" value="<%= categories[i].name %>">
+                     <button type="submit" class="btn btn-primary mt-4 btn-lg">Edit</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+       <% } %>
+      <div class="modal" tabindex="-1" role="dialog" id="editCategory">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title">Add Category</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <form action="/categories" method="POST">
+                  <input type="text" class="mail_text" placeholder="Name" name="name">
+                  <button type="submit" class="btn btn-primary mt-4 btn-lg">Add</button>
+               </form>
+             </div>
+             <div class="modal-footer">
+             </div>
+           </div>
+         </div>
+       </div>
+       <!-- Edit Category Modal End -->
+       <!-- Edit User Modal Start -->
+       <% for(let x=0 ; x < users.length; x++){ %>
+         <div class="modal" tabindex="-1" role="dialog" id="editUser<%= users[x]._id %>">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"><%= users[x].name %></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="/users/<%= users[x]._id %>?_method=PUT" method="POST">
+                     <select class="mail_text" name="role">
+                        <option class="mail_text" value="admin">Admin</option>
+                        <option class="mail_text" value="user">User</option>
+                     </select>
+                     <button type="submit" class="btn btn-primary mt-4 btn-lg">Edit</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+       <% } %>
+       <!-- Edit User Modal End -->
+      <%- include('partials/_footer') -%>

@@ -1,0 +1,58 @@
+<%- include('partials/_header') -%>
+      <!-- furnitures section start -->
+      <div class="furnitures_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12">
+                  <h1 class="furnitures_taital">Our Furnitures Work</h1>
+                  <p class="furnitures_text">reader will be distracted by the readable content of a page when looking at its layout. </p>
+               </div>
+            </div>
+            <div class="widget-search"> 
+               <div class="site-search-area"> 
+                   <form method="GET" id="site-searchform" action="/furnitures"> 
+                   <div> 
+                       <input class="input-text form-control" name="search" id="search-k" placeholder="Search..." type="text"> 
+                       <button id="searchsubmit" value="Search" type="submit"></button> 
+                   </div> 
+                   </form> 
+               </div> 
+           </div>
+           <% if(flashMessages){ %> 
+            <% if(flashMessages.success){ %> 
+                <div class="alert alert-success"> 
+                    <%= flashMessages.success %> 
+                </div> 
+        
+            <% } else if(flashMessages.error){ %> 
+                <div class="alert alert-danger"> 
+                    <%= flashMessages.error %> 
+                </div> 
+            <% } %> 
+          <% } %>
+            <div class="row mt-5">
+               <div class="col-10">
+                  <div class="row">
+                     <% for(i = 0; i < furnitures.length; i++){ %>
+                        <div class="col-6 p-5">
+                           <a href="/furnitures/<%= furnitures[i].slug %>">
+                              <h1 style="color: white;"><%= furnitures[i].name %></h1>
+                              <p style="color: white;"><%= furnitures[i].category.name %></p>
+                              <img class="mb-3" src="<%= furnitures[i].image %>" alt="">
+                              <p style="color: white;"><%= furnitures[i].description %></p>
+                           </a>
+                        </div>
+                     <% } %>
+                  </div>
+               </div>
+               <div class="col-2 mt-5" >
+                  <% for(i = 0; i < categories.length; i++){ %>
+                     <p><a style="color: white;" href="/furnitures/?categories=<%= categories[i].slug %>"><%= categories[i].name %></a></p>
+                  <% } %>
+                  <p><a style="color: white;" href="/furnitures">Tümünü öster</a></p>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- furnitures section end -->
+      <%- include('partials/_footer') -%>

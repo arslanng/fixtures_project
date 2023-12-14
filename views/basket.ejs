@@ -1,0 +1,85 @@
+<%- include('partials/_header') -%>
+      <!-- about section start -->
+      <div class="about_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <h1 class="about_taital"><%= user.name %>'s Basket</h1>
+               </div>
+            </div>
+            <div class="about_section_2 layout_padding">
+               <div class="row">
+                  <div class="col-4 offset-4">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th>Name</th>
+                              <th>Price</th>
+                              <th>Delete</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <% for(i = 0; i < user.basket.length ; i++){ %>
+                           <tr>
+                              <th>
+                                 <%= user.basket[i].name %>
+                              </th>
+                              <td>
+                                 <%= user.basket[i].price %> TL
+                              </td>
+                              <td>
+                                 <form action="/users/release" method="POST">
+                                    <input type="hidden" name="id" value="<%= user.basket[i]._id %>">
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                 </form>
+                              </td>
+                           </tr>
+                           <% } %>
+                           <tr>
+                              <th>Total</th>
+                              <th><%= total %> TL</th>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <form action="/orders/" method="POST">
+                        <input type="hidden" name="user" value="<%= user._id %>">
+                        <% for(i = 0; i < user.basket.length ; i++){ %>
+                           <input type="hidden" name="orders[]" value="<%= user.basket[i]._id %>">
+                        <% } %>
+                        <button class="btn btn-lg btn-success w-100">Send Order</button>
+                     </form>
+                  </div>
+               </div>
+               <h2>Orders</h2>
+            <div class="row">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Orders</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% for(i = 0; i< orders.length; i++){ %>
+                        <tr>
+                           <th>
+                              <%= orders[i]._id %>
+                           </th>
+                           <td>
+                              <ul>
+
+                                 <% for(k = 0; k< orders[i].orders.length ; k++){ %>
+                                    <li><%= orders[i].orders[k].name %></li>
+                                    <% } %>
+                                 </ul>
+                        </td>
+                        </tr>
+                     <% } %>
+                  </tbody>
+               </table>
+            </div>
+            </div>
+         </div>
+      </div>
+      <!-- about section end -->
+      <%- include('partials/_footer') -%>
